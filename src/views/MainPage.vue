@@ -93,7 +93,7 @@
                         :hitsPerPage="10"
                     />
 
-                    <b-row class="mb-3">
+                    <b-row class="mb-5">
                         <b-col>
                             <ais-pagination
                                 :show-first="true"
@@ -117,16 +117,96 @@
             </b-col>
         </b-row>
 
-        <footer>
-            
+        <footer class="mb-5 p-5 bg-light border-bottom shadow-sm">
+            <b-card no-body>
+                <b-row align-v="stretch" no-gutters>
+                    <b-col cols="2 d-flex bg-light border-right justify-content-center align-items-center">
+                       <b-icon icon="person-fill" class="display-2"></b-icon>
+                    </b-col>
+
+                    <b-col>
+                        <b-card-body title="Alexandr Andriyanov">
+                            <b-card-text>
+                                <p>Front End Developer | Vue.js</p>
+
+                                <p>Kyiv, Ukraine</p>
+
+                                <p>
+                                    <a
+                                        href="https://github.com/alexwertand/algolia-search"
+                                        target="_blank">https://github.com/alexwertand/algolia-search
+                                    </a>
+                                </p>
+                            </b-card-text>
+                        </b-card-body>
+                    </b-col>
+                </b-row>
+            </b-card>
         </footer>
 
-        <b-modal ref="package-modal" title="Detail info about npm package">
-            <div class="d-block text-center">
-                <h3>Hello From My Modal!</h3>
-            </div>
+        <b-modal
+            ref="package-modal"
+            title="Detail info about npm package"
+            ok-only>
+            <div class="d-block text-secondary">
+                <div>
+                    <b>Package's name:</b>
 
-            <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
+                    {{ modalData.name }}
+                </div>
+
+                <div>
+                    <b>Owner's name:</b>
+
+                    {{ modalData.authorName }}
+                </div>
+
+                <div>
+                    <b>Created:</b>
+
+                    {{ modalData.createdTime }}
+                </div>
+
+                <div>
+                    <b>Deprecated:</b>
+
+                    {{ modalData.deprecated }}
+                </div>
+
+                <div>
+                    <b>Keywords:</b>
+
+                    <span
+                        v-for="(keyword, index) in modalData.keywords"
+                        :key="index">
+                        {{ keyword }}
+                    </span>
+                </div>
+
+                <div>
+                    <b>license:</b>
+
+                    {{ modalData.license }}
+                </div>
+
+                <div>
+                    <b>Repository link:</b>
+
+                    {{ modalData.repositoryLink }}
+                </div>
+
+                <div>
+                    <b>Package's version:</b>
+
+                    {{ modalData.version }}
+                </div>
+
+                <div>
+                    <b>Short description:</b>
+
+                    {{ modalData.description }}
+                </div>
+            </div>
         </b-modal>
     </b-container>
 </template>
@@ -141,18 +221,30 @@
                     'OFCNCOG2CU',
                     'f54e21fa3a2a0160595bb058179bfb1e'
                 ),
-                searchText: ''
+                searchText: '',
+                modalData: {}
             };
         },
         methods: {
             showModal(item) {
+                console.log(item);
+
+                this.setModalData(item);
+
                 this.$refs['package-modal'].show();
 
-                console.log(item);
             },
-            hideModal() {
-                this.$refs['package-modal'].hide();
-            },
+            setModalData({ created, deprecated, description, keywords, license, name, owner, repository, version} = {}) {
+                let { url: repositoryLink } = repository,
+                    { name: authorName }  = owner,
+                    createdTime = new Date(created).toLocaleDateString("en-US");
+
+                this.modalData = Object.assign(
+                    {},
+                    this.modalData,
+                    { createdTime, deprecated, description, keywords, license, name, authorName, repositoryLink, version }
+                );
+            }
         },
     };
 </script>
