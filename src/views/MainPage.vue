@@ -14,10 +14,9 @@
                         :show-loading-indicator="true">
                         <div
                             class="mt-1 mb-3 p-5 bg-light border-bottom shadow-sm"
-                            slot-scope="{ currentRefinement, isSearchStalled, refine }">
+                            slot-scope="{ refine }">
                             <b-form-input
                                 type="search"
-                                class="asdasd"
                                 placeholder="search all of npm"
                                 v-model="searchText"
                                 @input="refine(searchText)">
@@ -52,7 +51,7 @@
 
                                         <b-col cols="auto">
                                             <b-badge class="p-2" variant="info">
-                                                <b-icon icon="tag-fill"></b-icon>
+                                                <b-icon icon="shield-check"></b-icon>
 
                                                 {{ item.license }}
                                             </b-badge>
@@ -93,15 +92,6 @@
                     <ais-configure
                         :hitsPerPage="10"
                     />
-                    <!-- <ais-pagination
-                        :show-first="true"
-                        :show-previous="true"
-                        :show-next="true"
-                        :show-last="true"
-                        :padding="2"
-                        :total-pages="100"
-                    /> -->
-
 
                     <b-row class="mb-3">
                         <b-col>
@@ -114,7 +104,7 @@
                                 :total-pages="100"
                                 :class-names="{
                                     'ais-Pagination': 'pagination-wrapper p-5 bg-light border-bottom shadow-sm',
-                                    'ais-Pagination-list': 'pagination mb-0',
+                                    'ais-Pagination-list': 'pagination mb-0 justify-content-center',
                                     'ais-Pagination-item': 'page-item',
                                     'ais-Pagination-item--selected': 'active',
                                     'ais-Pagination-item--disabled': 'disabled',
